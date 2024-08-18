@@ -1,0 +1,19 @@
+# Mengabaikan file sementara dan cache
+*.log
+*.tmp
+*.bak
+
+# Mengabaikan direktori tertentu
+/node_modules/
+/venv/
+/build/
+/dist/
+
+# Mengabaikan file konfigurasi editor
+.vscode/
+.idea/
+*.swp
+
+# Mengabaikan file environment
+.env
+credentials.json
