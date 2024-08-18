@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <h2>Google Sheets Downloader</h2>
+    <form action="/" method="post">
+        <label for="spreadsheet_url">Google Spreadsheet URL:</label><br>
+        <input type="text" id="spreadsheet_url" name="spreadsheet_url" required><br><br>
+        
+        <label for="worksheet_name">Worksheet Name:</label><br>
+        <input type="text" id="worksheet_name" name="worksheet_name" required><br><br>
+        
+        <input type="submit" value="Download Files">
+    </form>
+{% endblock %}
