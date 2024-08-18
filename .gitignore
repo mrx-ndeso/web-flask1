@@ -17,3 +17,6 @@
 # Mengabaikan file environment
 .env
 credentials.json
+# mengabaikan cache
+
+__pycache__/
