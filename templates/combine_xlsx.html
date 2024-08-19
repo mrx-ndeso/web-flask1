@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block title %}Combine Multiple XLSX Files{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Combine Multiple XLSX Files</h1>
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('main.combine_xlsx') }}">
+        <div class="form-group">
+            <label for="files">Upload XLSX Files:</label>
+            <input type="file" id="files" name="files" class="form-control" accept=".xlsx" multiple required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Combine Files</button>
+    </form>
+</div>
+{% endblock %}

@@ -68,8 +68,7 @@ def upload_and_send():
             df = df.astype(str)
             
             # Debug: Tampilkan data yang akan dikirim
-            print("Data from XLSX file:")
-            print(df.head())
+           
 
             # Ambil spreadsheet dan worksheet
             spreadsheet = client.open_by_url(sheet_url)
@@ -95,3 +94,58 @@ def upload_and_send():
 
     # Untuk metode GET, render form
     return render_template('upload_and_send.html')
+
+@main.route('/convert_csv_to_xlsx', methods=['GET', 'POST'])
+def convert_csv_to_xlsx():
+    if request.method == 'POST':
+        # Ambil file dan delimiter dari form
+        file = request.files['file']
+        delimiter = request.form['delimiter']
+
+        try:
+            # Baca CSV menggunakan delimiter yang diinputkan
+            df = pd.read_csv(file, delimiter=delimiter)
+            df = df.astype(str)
+            # Simpan DataFrame sebagai file XLSX
+            output = io.BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                df.to_excel(writer, index=False, sheet_name='Sheet1')
+            output.seek(0)
+
+            # Kirim file XLSX sebagai lampiran
+            return send_file(output, as_attachment=True, download_name='converted.xlsx')
+        except Exception as e:
+            return f"An error occurred: {e}"
+
+    return render_template('convert_csv_to_xlsx.html')
+
+
+@main.route('/combine_xlsx', methods=['GET', 'POST'])
+def combine_xlsx():
+    if request.method == 'POST':
+        files = request.files.getlist('files')
+
+        try:
+            # List untuk menyimpan DataFrame dari setiap file
+            dfs = []
+
+            for file in files:
+                df = pd.read_excel(file)
+                df = df.astype(str)
+                dfs.append(df)
+
+            # Gabungkan semua DataFrame menjadi satu
+            combined_df = pd.concat(dfs, ignore_index=True)
+
+            # Simpan DataFrame gabungan sebagai file XLSX
+            output = io.BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                combined_df.to_excel(writer, index=False, sheet_name='Combined')
+            output.seek(0)
+
+            # Kirim file XLSX gabungan sebagai lampiran
+            return send_file(output, as_attachment=True, download_name='combined.xlsx')
+        except Exception as e:
+            return f"An error occurred: {e}"
+
+    return render_template('combine_xlsx.html')
