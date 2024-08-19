@@ -30,7 +30,9 @@ source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
 3. Install the required packages:
 
-pip install -r requirements.txt
+
+    ```bash
+    pip install -r requirements.txt
 
 4. Add credentials.json:
 
@@ -44,5 +46,5 @@ Place this credentials.json file in the root directory of your project.
 
 
 5. Run the application:
-
-flask run
+    ```bash
+    flask run
