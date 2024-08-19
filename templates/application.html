@@ -4,15 +4,13 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h1>Download Google Sheet as XLSX</h1>
-    <ul>
-        <li>
-
-            <a class="link" href="{{ url_for('main.dgs') }}">Download Google Sheet as XLSX</a>
+    <h1 class="mb-4">Application List</h1>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <a class="link-primary" href="{{ url_for('main.dgs') }}">Download Google Sheet as XLSX</a>
         </li>
-        <li>
-
-            <a class="link" href="{{ url_for('main.upload_and_send') }}">Upload XLSX and Send to Google Sheets </a>
+        <li class="list-group-item">
+            <a class="link-primary" href="{{ url_for('main.upload_and_send') }}">Upload XLSX and Send to Google Sheets</a>
         </li>
     </ul>
 </div>
