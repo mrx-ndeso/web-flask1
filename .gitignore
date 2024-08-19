@@ -1,0 +1,61 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Cython debug symbols
+cython_debug/
+
+# Environment variables file
+.env
+
+# Flask instance folder
+instance/
+
+# Flask cache files
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite
+
+# Virtual environment
+venv/
+ENV/
+env/
+.venv/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PyCharm
+.idea/
+
+# VSCode
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Log files
+*.log
+
+# Credentials file
+credentials.json
+
+# Other
+*.sqlite3
+*.log
+*.pot
+*.mo
+*.gz
+*.rar
+*.tar
+*.zip
+.flaskenv

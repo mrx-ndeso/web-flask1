@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}Download Google Sheet as XLSX - Gus Poer{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Download Google Sheet as XLSX</h1>
+    <ul>
+        <li>
+
+            <a class="link" href="{{ url_for('main.dgs') }}">Download Google Sheet as XLSX</a>
+        </li>
+        <li>
+
+            <a class="link" href="{{ url_for('main.upload_and_send') }}">Upload XLSX and Send to Google Sheets </a>
+        </li>
+    </ul>
+</div>
+{% endblock %}

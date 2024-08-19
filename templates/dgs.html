@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}Download Google Sheet as XLSX - Gus Poer{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="mb-4">Download Google Sheet as XLSX</h1>
+    <form method="post">
+        <div class="mb-3">
+            <label for="sheet_url" class="form-label">Google Sheet URL:</label>
+            <input type="text" class="form-control" id="sheet_url" name="sheet_url" required>
+        </div>
+        <div class="mb-3">
+            <label for="sheet_name" class="form-label">Sheet Name:</label>
+            <input type="text" class="form-control" id="sheet_name" name="sheet_name" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Download XLSX</button>
+    </form>
+</div>
+
+{% endblock %}
