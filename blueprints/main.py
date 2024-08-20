@@ -6,8 +6,7 @@ import io
 import requests
 import os
 import zipfile
-import mimetypes
-import re
+
 
 main = Blueprint('main', __name__)
 
