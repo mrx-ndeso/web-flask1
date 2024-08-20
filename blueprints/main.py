@@ -3,6 +3,11 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import pandas as pd
 import io
+import requests
+import os
+import zipfile
+import mimetypes
+import re
 
 main = Blueprint('main', __name__)
 
@@ -149,3 +154,65 @@ def combine_xlsx():
             return f"An error occurred: {e}"
 
     return render_template('combine_xlsx.html')
+
+
+@main.route('/download_files', methods=['GET', 'POST'])
+def download_files():
+    if request.method == 'POST':
+        sheet_url = request.form['sheet_url']
+        sheet_name = request.form['sheet_name']
+        formats = request.form['formats'].split(',')  # Ambil format file dari form
+
+        try:
+            # Buka spreadsheet dan worksheet
+            spreadsheet = client.open_by_url(sheet_url)
+            worksheet = spreadsheet.worksheet(sheet_name)
+
+            # Ambil data dari sheet
+            rows = worksheet.get_all_values()
+            headers = rows[0]
+            data = rows[1:]
+
+            # Inisialisasi file ZIP
+            zip_buffer = io.BytesIO()
+            with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+                for index, row in enumerate(data):
+                    if len(row) < 2:
+                        continue  # Skip rows without enough data
+                    
+                    unique_name = row[0]  # Nama unik dari kolom pertama
+                    links = row[1:3]  # Link dari kolom kedua dan ketiga
+
+                    # Jika ada lebih banyak format daripada link, kita gunakan format default untuk sisa link
+                    if len(formats) < len(links):
+                        formats.extend(['.unknown'] * (len(links) - len(formats)))
+
+                    for i, (link, file_format) in enumerate(zip(links, formats)):
+                        if link and link.startswith("https://drive.google.com"):
+                            try:
+                                # Extract file ID from the link
+                                file_id = link.split('/')[-2]
+                                # Generate the download URL
+                                download_url = f"https://drive.google.com/uc?id={file_id}&export=download"
+                                
+                                # Mendapatkan nama file dari header link dan format
+                                header = headers[i + 1] if i + 1 < len(headers) else "unknown"
+                                file_name = f"{index + 1}_{unique_name}_{header}{file_format}"  # Format file ditambahkan di sini
+
+                                # Unduh file
+                                response = requests.get(download_url, stream=True)
+                                if response.status_code == 200:
+                                    zip_file.writestr(file_name, response.content)
+                                else:
+                                    print(f"Failed to download file from {link}")
+
+                            except Exception as e:
+                                print(f"Error downloading file from link: {link}\n{e}")
+
+            zip_buffer.seek(0)
+            return send_file(zip_buffer, as_attachment=True, download_name='files.zip')
+
+        except Exception as e:
+            return f"An error occurred: {e}"
+
+    return render_template('download_files.html')

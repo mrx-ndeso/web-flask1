@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}Download Files from Google Drive{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Download Files</h1>
+    <form method="post" action="{{ url_for('main.download_files') }}">
+        <div class="form-group">
+            <label for="sheet_url">Google Sheets URL</label>
+            <input type="url" class="form-control" id="sheet_url" name="sheet_url" required>
+        </div>
+        <div class="form-group">
+            <label for="sheet_name">Sheet Name</label>
+            <input type="text" class="form-control" id="sheet_name" name="sheet_name" required>
+        </div>
+        <div class="form-group">
+            <label for="formats">File Formats (comma separated, e.g., .pdf,.jpg)</label>
+            <input type="text" class="form-control" id="formats" name="formats" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Download Files</button>
+    </form>
+</div>
+{% endblock %}
